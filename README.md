@@ -186,3 +186,47 @@ To learn more about the Grafana reporter module and how to make use of it, you c
 ```
 
 ```
+
+##Build Image
+
+````
+docker build . -f build/Dockerfile
+
+docker build . -f build/Dockerfile -t jmeter-operator:latest
+
+docker build . -f build/Dockerfile -t loadtest.jmeter.com/jmeter-operator:latest
+
+````
+
+###Use the same image in Minikube
+
+Start minikube
+
+``
+minikube start
+``
+
+Set docker env
+
+``
+eval $(minikube docker-env)             # unix shells
+minikube docker-env | Invoke-Expression # PowerShell
+``
+
+Build image
+
+``
+docker build -t foo:0.0.1 .
+``
+
+Run in minikube
+
+``
+kubectl run hello-foo --image=foo:0.0.1 --image-pull-policy=Never
+``
+
+Check that it's running
+
+``
+kubectl get pods
+``

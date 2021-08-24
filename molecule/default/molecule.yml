@@ -3,14 +3,14 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
-  enabled: False
+#lint:
+#  name: yamllint
+#  enabled: False
 platforms:
 - name: kind-default
   groups:
   - k8s
-  image: bsycorp/kind:latest-1.12
+  image: bsycorp/kind:latest-1.16
   privileged: True
   override_command: no
   exposed_ports:
@@ -22,9 +22,9 @@ platforms:
 provisioner:
   name: ansible
   log: True
-  lint:
-    name: ansible-lint
-    enabled: False
+#  lint:
+#    name: ansible-lint
+#    enabled: False
   inventory:
     group_vars:
       all:

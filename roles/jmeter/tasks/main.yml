@@ -17,6 +17,20 @@
           #Script should be run like: ./load_test "path to the test script in jmx format"
           /jmeter/apache-jmeter-*/bin/jmeter -n -t $1 -Dserver.rmi.ssl.disable=true -R `getent ahostsv4 '{{ meta.name }}-jmeter-slaves-svc' | cut -d' ' -f1 | sort -u | awk -v ORS=, '{print $1}' | sed 's/,$//'`
 
+- name: Create JMX Configmap
+  k8s:
+    state: present
+    definition:
+      kind: ConfigMap
+      metadata:
+        name: '{{ meta.name }}-jmx-config'
+        namespace: '{{ meta.namespace }}'
+        labels:
+          jmeter_mode: '{{ meta.name }}-jmx-config'
+      data:
+        jmeter.conf: |
+          #jmx config
+
 - name: Start Jmeter Master
   k8s:
     state: present
@@ -48,12 +62,18 @@
                 - name: loadtest
                   mountPath: /load_test
                   subPath: "load_test"
+                - name: jmx
+                  mountPath: /jmx_config
+                  append: true
               ports:
               - containerPort: 60000
             volumes:
             - name: loadtest 
               configMap:
                name: '{{ meta.name }}-jmeter-master-config'
+            - name: jmx
+              configMap:
+                name: '{{ meta.name }}-jmx-config'
 
 - name: Start Jmeter Slaves        
   k8s:
@@ -80,9 +100,17 @@
             - name: jmslave
               image: "{{jmeter_slave_image}}"
               imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - name: jmx
+                  mountPath: /jmx_config
+                  append: true
               ports:
               - containerPort: 1099
-              - containerPort: 50000          
+              - containerPort: 50000
+            volumes:
+              - name: jmx
+                configMap:
+                  name: '{{ meta.name }}-jmx-config'
 
 - name: Create Jmeter Slave Service    
   k8s:
@@ -155,7 +183,7 @@
               app: '{{ meta.name }}-influxdb'
           spec:
             containers:
-              - image: "{{influxdb_image}}"
+              - image: influxdb:1.8.0
                 imagePullPolicy: IfNotPresent
                 name: influxdb
                 volumeMounts:

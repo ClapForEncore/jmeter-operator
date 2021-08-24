@@ -1,2 +1,6 @@
 ---
 # vars file for jmeter
+meta:
+  name: 'jmeter'
+  namespace: 'default'
+influxdb_image: influxdb:1.8.0
