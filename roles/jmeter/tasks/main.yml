@@ -28,8 +28,8 @@
         labels:
           jmeter_mode: '{{ meta.name }}-jmx-config'
       data:
-        jmeter.conf: |
-          #jmx config
+        jmx.conf: |
+          #JMX Conf
 
 - name: Start Jmeter Master
   k8s:
@@ -100,6 +100,11 @@
             - name: jmslave
               image: "{{jmeter_slave_image}}"
               imagePullPolicy: IfNotPresent
+              lifecycle:
+                postStart:
+                  exec:
+#                    command: [ "/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message" ]
+                    command: [ "/jmx_config/clap-test-setup.sh" ]
               volumeMounts:
                 - name: jmx
                   mountPath: /jmx_config
@@ -107,10 +112,18 @@
               ports:
               - containerPort: 1099
               - containerPort: 50000
+              env:
+              - name: AWS_ACCESS_KEY_ID
+                value: "{{aws_access_key_id}}"
+              - name: AWS_SECRET_ACCESS_KEY
+                value: "{{aws_secret_access_key}}"
+              - name: NUMBER_OF_USER_TOKENS
+                value: "{{number_of_user_tokens}}"
             volumes:
               - name: jmx
                 configMap:
                   name: '{{ meta.name }}-jmx-config'
+                  defaultMode: 0744
 
 - name: Create Jmeter Slave Service    
   k8s:
