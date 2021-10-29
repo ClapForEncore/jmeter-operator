@@ -67,6 +67,11 @@
                   append: true
               ports:
               - containerPort: 60000
+              env:
+              - name: API_ENDPOINT
+                value: "{{api_endpoint}}"
+              - name: SHOW_ID
+                value: "{{show_id}}"
             volumes:
             - name: loadtest 
               configMap:
@@ -119,6 +124,16 @@
                 value: "{{aws_secret_access_key}}"
               - name: NUMBER_OF_USER_TOKENS
                 value: "{{number_of_user_tokens}}"
+              - name: API_ENDPOINT
+                value: "{{api_endpoint}}"
+              - name: SHOW_ID
+                value: "{{show_id}}"
+              - name: AWS_COGNITO_USER_POOL_ID
+                value: "{{aws_cognito_user_pool_id}}"
+              - name: AWS_COGNITO_CLIENT_ID
+                value: "{{aws_cognito_client_id}}"
+              - name: AWS_COGNITO_REGION
+                value: "{{aws_cognito_region}}"
             volumes:
               - name: jmx
                 configMap:
