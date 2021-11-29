@@ -119,9 +119,15 @@
               - containerPort: 50000
               env:
               - name: AWS_ACCESS_KEY_ID
-                value: "{{aws_access_key_id}}"
+                valueFrom:
+                  secretKeyRef:
+                    name: aws-credentials
+                    key: aws-access-key-id
               - name: AWS_SECRET_ACCESS_KEY
-                value: "{{aws_secret_access_key}}"
+                valueFrom:
+                  secretKeyRef:
+                    name: aws-credentials
+                    key: aws-secret-access-key
               - name: NUMBER_OF_USER_TOKENS
                 value: "{{number_of_user_tokens}}"
               - name: API_ENDPOINT
