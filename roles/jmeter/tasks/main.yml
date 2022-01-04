@@ -140,6 +140,20 @@
                 value: "{{aws_cognito_client_id}}"
               - name: AWS_COGNITO_REGION
                 value: "{{aws_cognito_region}}"
+              - name: ADMIN_USER
+                value: "{{admin_user}}"
+              - name: ADMIN_PASSWORD
+                value: "{{admin_password}}"
+              - name: USER_TOKENS_FILENAME
+                value: "{{user_tokens_filename}}"
+              - name: INFLUXDB_HOST
+                value: "{{influxdb_host}}"
+              - name: INFLUXDB_PORT
+                value: "{{influxdb_port}}"
+              - name: INFLUXDB_DBNAME
+                value: "{{influxdb_dbname}}"
+              - name: WS_ENDPOINT
+                value: "{{ws_endpoint}}"
             volumes:
               - name: jmx
                 configMap:
