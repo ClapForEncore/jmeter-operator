@@ -68,6 +68,11 @@
               ports:
               - containerPort: 60000
               env:
+              - name: ARTIST_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: artist-credentials
+                    key: artist-token
               - name: API_ENDPOINT
                 value: "{{api_endpoint}}"
               - name: SHOW_ID
