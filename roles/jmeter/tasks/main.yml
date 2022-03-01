@@ -73,10 +73,56 @@
                   secretKeyRef:
                     name: artist-credentials
                     key: artist-token
-              - name: API_ENDPOINT
-                value: "{{api_endpoint}}"
               - name: SHOW_ID
-                value: "{{show_id}}"
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: show-id
+              - name: SURVEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: survey-id
+              - name: SURVEY_OPTION_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: survey-option-id
+              - name: AWS_ACCESS_KEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: aws-credentials
+                    key: aws-access-key-id
+              - name: AWS_SECRET_ACCESS_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: aws-credentials
+                    key: aws-secret-access-key
+              - name: API_ENDPOINT
+                valueFrom:
+                  secretKeyRef:
+                    name: api-ws-details
+                    key: api-endpoint
+              - name: WS_ENDPOINT
+                valueFrom:
+                  secretKeyRef:
+                    name: api-ws-details
+                    key: ws-endpoint
+              - name: AWS_COGNITO_USER_POOL_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: cognito-details
+                    key: aws-cognito-user-pool-id
+              - name: AWS_COGNITO_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: cognito-details
+                    key: aws-cognito-client-id
+              - name: AWS_COGNITO_REGION
+                valueFrom:
+                  secretKeyRef:
+                    name: cognito-details
+                    key: aws-cognito-region
             volumes:
             - name: loadtest 
               configMap:
@@ -123,6 +169,26 @@
               - containerPort: 1099
               - containerPort: 50000
               env:
+              - name: SHOW_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: show-id
+              - name: SURVEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: survey-id
+              - name: SURVEY_OPTION_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: survey-option-id
+              - name: ARTIST_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: artist-credentials
+                    key: artist-token
               - name: AWS_ACCESS_KEY_ID
                 valueFrom:
                   secretKeyRef:
@@ -133,22 +199,43 @@
                   secretKeyRef:
                     name: aws-credentials
                     key: aws-secret-access-key
+              - name: API_ENDPOINT
+                valueFrom:
+                  secretKeyRef:
+                    name: api-ws-details
+                    key: api-endpoint
+              - name: WS_ENDPOINT
+                valueFrom:
+                  secretKeyRef:
+                    name: api-ws-details
+                    key: ws-endpoint
+              - name: AWS_COGNITO_USER_POOL_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: cognito-details
+                    key: aws-cognito-user-pool-id
+              - name: AWS_COGNITO_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: cognito-details
+                    key: aws-cognito-client-id
+              - name: AWS_COGNITO_REGION
+                valueFrom:
+                  secretKeyRef:
+                    name: cognito-details
+                    key: aws-cognito-region
+              - name: ADMIN_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: admin-credentials
+                    key: admin-user
+              - name: ADMIN_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: admin-credentials
+                    key: admin-password
               - name: NUMBER_OF_USER_TOKENS
                 value: "{{number_of_user_tokens}}"
-              - name: API_ENDPOINT
-                value: "{{api_endpoint}}"
-              - name: SHOW_ID
-                value: "{{show_id}}"
-              - name: AWS_COGNITO_USER_POOL_ID
-                value: "{{aws_cognito_user_pool_id}}"
-              - name: AWS_COGNITO_CLIENT_ID
-                value: "{{aws_cognito_client_id}}"
-              - name: AWS_COGNITO_REGION
-                value: "{{aws_cognito_region}}"
-              - name: ADMIN_USER
-                value: "{{admin_user}}"
-              - name: ADMIN_PASSWORD
-                value: "{{admin_password}}"
               - name: USER_TOKENS_FILENAME
                 value: "{{user_tokens_filename}}"
               - name: INFLUXDB_HOST
@@ -157,8 +244,6 @@
                 value: "{{influxdb_port}}"
               - name: INFLUXDB_DBNAME
                 value: "{{influxdb_dbname}}"
-              - name: WS_ENDPOINT
-                value: "{{ws_endpoint}}"
             volumes:
               - name: jmx
                 configMap:
