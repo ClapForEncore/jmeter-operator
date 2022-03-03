@@ -88,6 +88,16 @@
                   secretKeyRef:
                     name: show-details
                     key: survey-option-id
+              - name: SURVEY_OPTION_ID_1
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: survey-option-id1
+              - name: SURVEY_OPTION_ID_2
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: survey-option-id2
               - name: AWS_ACCESS_KEY_ID
                 valueFrom:
                   secretKeyRef:
@@ -123,6 +133,26 @@
                   secretKeyRef:
                     name: cognito-details
                     key: aws-cognito-region
+              - name: CLAP_NUM_THREADS
+                valueFrom:
+                  secretKeyRef:
+                    name: jmeter-config
+                    key: clap-num-threads
+              - name: VOTE_NUM_THREADS
+                valueFrom:
+                  secretKeyRef:
+                    name: jmeter-config
+                    key: vote-num-threads
+              - name: CLAP_THREAD_DELAY_MS
+                valueFrom:
+                  secretKeyRef:
+                    name: jmeter-config
+                    key: clap-thread-delay-ms
+              - name: VOTE_THREAD_DELAY_MS
+                valueFrom:
+                  secretKeyRef:
+                    name: jmeter-config
+                    key: vote-thread-delay-ms
             volumes:
             - name: loadtest 
               configMap:
@@ -184,6 +214,16 @@
                   secretKeyRef:
                     name: show-details
                     key: survey-option-id
+              - name: SURVEY_OPTION_ID_1
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: survey-option-id1
+              - name: SURVEY_OPTION_ID_2
+                valueFrom:
+                  secretKeyRef:
+                    name: show-details
+                    key: survey-option-id2
               - name: ARTIST_TOKEN
                 valueFrom:
                   secretKeyRef:
@@ -234,6 +274,26 @@
                   secretKeyRef:
                     name: admin-credentials
                     key: admin-password
+              - name: CLAP_NUM_THREADS
+                valueFrom:
+                  secretKeyRef:
+                    name: jmeter-config
+                    key: clap-num-threads
+              - name: VOTE_NUM_THREADS
+                valueFrom:
+                  secretKeyRef:
+                    name: jmeter-config
+                    key: vote-num-threads
+              - name: CLAP_THREAD_DELAY_MS
+                valueFrom:
+                  secretKeyRef:
+                    name: jmeter-config
+                    key: clap-thread-delay-ms
+              - name: VOTE_THREAD_DELAY_MS
+                valueFrom:
+                  secretKeyRef:
+                    name: jmeter-config
+                    key: vote-thread-delay-ms
               - name: NUMBER_OF_USER_TOKENS
                 value: "{{number_of_user_tokens}}"
               - name: USER_TOKENS_FILENAME
